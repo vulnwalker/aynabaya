@@ -1,0 +1,278 @@
+/*!
+ * Start Bootstrap - Logo Nav HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+ body{
+    padding-top: 40px;
+ }
+
+ol.breadcrumb{
+    background: none;
+    padding: 0;
+}
+
+
+#big-card{
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+.left-padding {
+    padding: 0 !important;
+    padding-left: 20px !important;
+    margin: 0 !important;
+}
+
+.right-padding {
+    padding: 0 !important;
+    padding-right: 20px !important;
+    margin: 0 !important;
+}
+
+div.big-featured{
+	height:500px;
+    background-size: 100% 100%;
+    -moz-transition: all .1s;
+    -webkit-transition: all .1s;
+    transition: all .5s;
+    background-position: center center;	
+    
+}
+
+div.big-featured:hover{
+	cursor: pointer;
+	background-size: 110% 110%;
+}
+
+a.featured h3, a.featured h4, a.featured h5{
+	color: #fff !important;
+	text-shadow:0 1px 3px #555;
+	margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+a.featured:hover{
+	text-decoration: none;
+}
+
+a.cat{
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    text-transform: uppercase;
+    padding:5px 10px;
+    font-size: 11px;
+}
+
+a.author{
+    color: #fff ;
+    text-shadow:0 1px 3px #555;
+    font-weight: bold;
+}
+
+div.portfolio-item a.author{
+    color: #000;
+    text-shadow:none;
+}
+
+a.anchor-block{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+div.side-featured{
+	height:250px;
+    background-size: 100% 100%;
+    -moz-transition: all .1s;
+    -webkit-transition: all .1s;
+    transition: all .5s;
+    position: relative;
+    background-position: center center;		
+}
+
+div.side-featured:hover{
+	cursor: pointer;
+	background-size: 110% 110%;
+}
+
+.bottom-align-text {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px 40px 20px 20px;
+    background-image: -webkit-gradient(
+	  linear, left top, left bottom, from(rgba(80,80,80,0)),
+	  to(rgba(50,50,50,0.8))
+	);
+}
+
+
+h5.heading-list{
+    background: #eee;
+    padding:10px;
+    font-size: 14px;
+    display: inline-block;
+    text-transform: uppercase;
+    margin-bottom: 0;
+}
+
+div.hr-heading-list{
+    display: block;
+    margin-top: 0;
+    border-top: 4px solid #efefef;
+    margin-bottom: 30px;
+}
+
+
+div#left-side{
+    padding-right: 20px !important;
+}
+
+
+div.right-side{
+
+}
+
+div.wrap-list{
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+div.portfolio-item{
+    padding-right: 40px;
+}
+
+div.portfolio-item h6{
+    margin: 0;
+    font-size: 15px;
+}
+
+div.list-item{
+    margin-bottom: 20px;
+}
+
+img.img-responsive{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#content-list{
+    margin-top: 40px;
+}
+
+#left-side{
+    padding: 0 20px;
+}
+
+div.big-item{
+    padding-right: 20px;
+}
+
+div.item{
+    padding-left: 40px !important;
+}
+
+div.item a h6{
+    margin: 0;
+    padding-left: 10px;
+    font-size: 1.1em;
+}
+
+div.thumbnail{
+    padding:0;
+    border:none;
+}
+
+ul.news-item li a{
+    font-size: 1.12em;
+    line-height: 1em;
+}
+
+ul.news-item h4{
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+
+ul.news-item li{
+    margin-bottom: 20px;
+}
+
+ul.comment-list{
+    padding: 0 20px 0 20px;
+}
+
+ul.comment-list li a{
+    font-size: 1.12em;
+}
+
+ul.foot-list{
+    margin: 20px 0 40px 0;
+}
+
+div#related-news h5{
+    font-size: 1.2em;
+}
+
+footer.footer{
+    margin: 40px 0 0 0;
+    background: #666;
+    color: #fff;
+    padding: 40px 0 0px 0;
+}
+
+footer.footer h4{
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+footer div#copyright{
+    padding: 20px 0 10px 0;
+    background: #000;
+}
+
+
+footer ul.media-list li a{
+    color: #fff;
+}
+
+
+
+@media only screen and (max-width: 1024px){
+    /* STYLES HERE for DEVICES with physical max-screen width of 480px */
+    body div.container{
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+}
+
+@media only screen and (max-width: 640px){
+    div.big-item{
+        width:100%;
+    }
+
+    div.item{
+        width:100%;
+        margin-top: 20px;
+        padding-left: 15px !important;
+    }
+
+
+    .left-padding {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .right-padding {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+ }

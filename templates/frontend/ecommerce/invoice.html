@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Ecommerce Template</title>
+
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">LOGO</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li ><a href="#">Link <span class="sr-only">(current)</span></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <form class="navbar-form navbar-left navbar-right" role="search">
+
+            <div class="form-group has-feedback">
+              <label class="control-label" ></label>
+              <input type="text" class="form-control" name="pencarian" id="pencarian" placeholder="Pencarian...">
+              <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            </div>
+
+          </form>
+
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#"  id="cart"><i class="fa fa-shopping-cart"></i> Keranjang <span class="badge">3</span></a></li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+
+
+        <!-- Page Content -->
+    <div class="container">
+      <div class="shopping-cart">
+        <div class="shopping-cart-header">
+          <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">3</span>
+          <div class="shopping-cart-total">
+            <span class="lighter-text">Total:</span>
+            <span class="main-color-text">$2,229.97</span>
+          </div>
+        </div> <!--end shopping-cart-header -->
+
+        <ul class="shopping-cart-items">
+          <li class="clearfix">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item1.jpg" alt="item1" />
+            <span class="item-name">Sony DSC-RX100M III</span>
+            <span class="item-price">$849.99</span>
+            <span class="item-quantity">Quantity: 01</span>
+          </li>
+
+          <li class="clearfix">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item2.jpg" alt="item1" />
+            <span class="item-name">KS Automatic Mechanic...</span>
+            <span class="item-price">$1,249.99</span>
+            <span class="item-quantity">Quantity: 01</span>
+          </li>
+
+          <li class="clearfix">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item3.jpg" alt="item1" />
+            <span class="item-name">Kindle, 6" Glare-Free To...</span>
+            <span class="item-price">$129.99</span>
+            <span class="item-quantity">Quantity: 01</span>
+          </li>
+        </ul>
+
+        <div class="btn-group btn-group-justified" >
+          <div class="btn-group" role="group">
+            <a href="#" class="button"><i class="fa fa-check"></i> Pembayaran</a>
+          </div>
+          <div class="btn-group" role="group">
+            <a href="#" class="button" id="closebtn"><i class="fa fa-shopping-cart"></i> Belanja Lagi</a>
+          </div>
+        </div>
+      </div> <!--end shopping-cart -->
+
+
+            <div class="row wrap-content">
+
+                <div class="col-md-12">
+
+                  <ol class="breadcrumb">
+                      <li><a href="#">Home</a></li>
+                      <li><a href="#">Library</a></li>
+                      <li class="active">Data</li>
+                  </ol>
+
+                  <h3>Invoice</h3>
+
+                  <p class="text-center">Terima kasih, Anda telah berhasil melakukan pemesanan, transaksi ini tercatat sebagai invoice nomor <strong>{NO INVOICE}</strong></p>
+
+
+                  <p class="text-center"><a class="btn btn-primary">Lihat Detil Transaksi</a></p>
+
+                        <table class="table span6" id="list-fix-order-invoice">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th class="text-center">Total</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="shop-item">
+                                    <td class="col-sm-8 col-xs-6">
+                                      <h5 class="media-heading">SanDisk USB 3.0 OTG 32GB</h5>
+                                    </td>
+                                    <td class="col-sm-1 col-xs-1" style="text-align: center"><p class="form-control-static">3</p></td>
+                                    <td class="col-sm-1 col-xs-1 text-right"><strong>297.000</strong></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td><h6>Subtotal</h6></td>
+                                    <td></td>
+                                    <td class="text-right"><strong><h6>297.000</h6></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><h6>Ongkos Kirim</h6></td>
+                                    <td></td>
+                                    <td class="text-right"><strong><h6>9.000</h6></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>Total</h5></td>
+                                    <td></td>
+                                    <td class="text-right"><strong><h5>306.000</h5></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                  <p>&nbsp;</p>
+
+                  <p class="text-center">Segera lakukan pembayaran sebelum : </p>
+
+                  <h4 class="text-center"><span class="label label-default">{INVOICE TIME EXPIRED}</span></h4>
+
+                  <p class="text-center">Lakukan pembayaran sebesar : </p>
+                  <h3 class="text-center">{INVOICE TOTAL}</h3>
+                  <p class="text-center">Tepat hingga 2 digit terakhir, tidak kurang tidak lebih</p>
+                  <p class="text-center"><i>Jika jumlah yang Anda transfer berbeda dengan diatas maka Akan menghambat proses verifikasi</i></p>
+                  <p>&nbsp;</p>
+                  <p class="text-center">Pembayaran bisa dilakukan ke salah satu rekening dibawah ini</p>
+
+                  <div class="row">
+
+                      <div class="col-md-12 text-center"><strong>{INVOICE BANK REKENING}</strong></div>
+
+                  </div>
+
+                  <p>&nbsp;</p>
+                  <p class="text-center">Transaksi dianggap batal bila sampai dengan <strong>{INVOICE TIME EXPIRED}</strong> pembayaran belum dilunasi</p>
+
+                  <p class="text-center">Kami telah mengirim Invoice pemesanan ke email Anda, silahkan lakukan pembayaran sebelum <strong>{INVOICE TIME EXPIRED}</strong>. </p>
+
+                  <p>&nbsp;</p>
+
+                  <p class="text-center">Please Confirm ... </p>
+
+                  <p class="text-center">Terima kasih telah berbelanja di ...</p>
+
+
+                </div>
+
+
+            </div>
+
+
+    </div>
+    <?php
+function sendSMS($nomorTujuan,$isiPesan){
+        $arrayData = array(
+                                                        'editPhone' => $nomorTujuan,
+                                                        'editIsi' => $isiPesan,
+                                                        'editEmail' => 'nurmelly16@gmail.com',
+        );
+        $curl = curl_init();
+        curl_setopt($curl,CURLOPT_URL, "http://sms.vherolly.com/gammu/kirim/mobile_send_v2.php");
+        curl_setopt($curl,CURLOPT_POST, sizeof($arrayData));
+        curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
+        curl_setopt($curl,CURLOPT_POSTFIELDS, $arrayData);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($curl);
+        return $result;
+}
+
+for ($i=1; $i <=1 ; $i++) {
+        $pesan = "Terimakasih telah berbelanja di aynabaya webshop. Total pembelanjaan anda adalah rp {INVOICE TOTAL}, silahkan transfer sesuai angka";
+        $numberTujuan = "08112107299";
+        $response = json_decode(sendSMS($numberTujuan,$pesan));
+        if($response->success == '1'){
+                echo "$i. SUKSES SEND TO $numberTujuan => $pesan \n";
+        }else{
+                echo "$i. FAILED SEND TO $numberTujuan => $pesan \n";
+        }
+}
+ ?>
+
+    <!-- /.container -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="foot lead">Tentang Kami</h4>
+                    <p>Ini adalah template yang cocok untuk ecommerce, barangkali Anda membutuhkannya silahkan saja bisa digunakan tanpa minta izin terlebih dahulu! Follow Sosial Media kami ... </p>
+
+                    <ul class="list-inline">
+                    <li><a href="#" class="icoRss" title="Rss"><i class="fa fa-2x fa-rss"></i></a></li>
+                    <li><a href="#" class="icoFacebook" title="Facebook"><i class="fa fa-2x fa-facebook"></i></a></li>
+                    <li><a href="#" class="icoTwitter" title="Twitter"><i class="fa fa-2x fa-twitter"></i></a></li>
+                    <li><a href="#" class="icoGoogle" title="Google +"><i class="fa fa-2x fa-google-plus"></i></a></li>
+                    <li><a href="#" class="icoLinkedin" title="Linkedin"><i class="fa fa-2x fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4">
+                    <h4 class="foot lead">Pilihan Editor</h4>
+                    <ul class="media-list foot-list">
+                      <li class="media">
+                        <div class="media-left">
+                          <a href="#">
+                            <img class="media-object" src="http://placehold.it/80x60" alt="...">
+                          </a>
+                        </div>
+                        <div class="media-body">
+                          <a href="#" class="media-heading">SanDisk USB 3.0 OTG 32GB</a>
+                          <p>Rp 99.000</p>
+                        </div>
+                      </li>
+                      <li class="media">
+                        <div class="media-left">
+                          <a href="#">
+                            <img class="media-object" src="http://placehold.it/80x60" alt="...">
+                          </a>
+                        </div>
+                        <div class="media-body">
+                          <a href="#" class="media-heading">Samsung DVDRW SE-208GB</a>
+                          <p>Rp 295.000</p>
+                        </div>
+                      </li>
+                      <li class="media">
+                        <div class="media-left">
+                          <a href="#">
+                            <img class="media-object" src="http://placehold.it/80x60" alt="...">
+                          </a>
+                        </div>
+                        <div class="media-body">
+                          <a href="#" class="media-heading">Corsair KATAR Gaming Mouse</a>
+                          <p>Rp 495.000</p>
+                        </div>
+                      </li>
+
+                    </ul>
+
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="copyright">
+            <div class="container">
+                <div class="row nopadding">
+                    <p class="text-muted">© Copyright 2016 - EcommercE by ilmuwebsite</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/custom.js" type="text/javascript"></script>
+
+</body>
+
+</html>
