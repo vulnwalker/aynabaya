@@ -70,8 +70,16 @@ It's here for you, your ethereal basic needs.<p>
                 </div>
                 <div class="col-sm-4">
                   <h4 class="foot" style="color:white;" style="text-align:center;">Currency</h4>
-                  <button type="button" class="btn btn-default" style="float:center;margin-bottom:10px;"><b>USD</b></button>
-                  <button type="button" class="btn btn-default" style="float:center; margin-bottom:10px;"><b>IDR</b></button>
+                  <form name='postKurs' method="POST"  action="">
+                    <input type="hidden" name='usd' id='usd' value="1">
+                    <input type="hidden" name='idr' id='idr' value="0">
+                    <button type="submit" class="btn btn-default" style="float:center;margin-bottom:10px;"><b>USD</b></button>
+                  </form>
+                  <form name='postKurs'  method="POST">
+                    <input type="hidden" name='usd' id='usd' value="0">
+                    <input type="hidden" name='idr' id='idr' value="1">
+                    <button type="submit" class="btn btn-default" style="float:center; margin-bottom:10px;"><b>IDR</b></button>
+                  </form>
                 </div>
             </div>
         </div>

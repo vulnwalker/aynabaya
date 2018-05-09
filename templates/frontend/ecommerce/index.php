@@ -1,4 +1,6 @@
-<?php get_template('header');?>
+<?php get_template('header');
+
+?>
 
 
 
@@ -194,7 +196,14 @@
 
                           <div class="btn-group" role="group" style="width:60%;">
 
-                            <h4 class="pull-left"><?=post_meta('price',$post);?></h4>
+                            <h4 class="pull-left"><?php
+                            if($_POST['usd'] == '1'){
+                              echo convertUSD(post_meta('hargaReal',$post));
+                            }else{
+                              echo post_meta('price',$post);
+                            }
+
+                            ?> </h4>
 
                           </div>
 

@@ -1,5 +1,9 @@
 <?php
-
+function convertUSD($harga){
+	$kursDolar = 14000;
+	$kurs = $harga / $kursDolar;
+	return $kurs;
+}
 	function get_template_directory($path,$dir_file){
 		global $SConfig;
 
@@ -271,6 +275,7 @@
 			case 'author' : $display = $post->username; break;
 			case 'image' : $display = @$post->post_image; break;
 			case 'price' : $display = rupiah(@$post->post_discount); break;
+			case 'hargaReal' : $display = $post->post_discount; break;
 			case 'ID' : $display = $post->post_ID; break;
 
 			default: $post->$type; break;

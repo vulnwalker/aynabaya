@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Artikel_model extends MY_Model {
-	
+
 	protected $_table_name = 'post';
 	protected $_primary_key = 'post_ID';
 	protected $_order_by = 'post_ID';
@@ -12,16 +12,16 @@ class Artikel_model extends MY_Model {
 
 	public $rules = array(
 		'post_title' => array(
-			'field' => 'post_title', 
-			'label' => 'Judul Artikel', 
+			'field' => 'post_title',
+			'label' => 'Judul Artikel',
 			'rules' => 'trim|required'
 		)
-	);	
+	);
 
 	function __construct() {
 		parent::__construct();
-	}	
-	
+	}
+
 	function get_artikel($where = NULL, $limit = NULL, $offset= NULL, $single=FALSE, $select=NULL, $where_in=array(), $where_not_in=array()){
 		// $this->db->join('table_name', 'table_name.field = table_name.field')
 		if(count($where_in) > 0){
@@ -40,5 +40,5 @@ class Artikel_model extends MY_Model {
 		$this->_order_by_type = 'DESC';
 		return parent::get_by($where,$limit);
 	}
-	
+
 }
