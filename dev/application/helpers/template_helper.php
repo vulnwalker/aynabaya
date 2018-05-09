@@ -1,8 +1,9 @@
 <?php
 function convertUSD($harga){
-	$kursDolar = 14000;
+	$getKurs = sqlArray(sqlQuery("select * from kurs"));
+	$kursDolar = $getKurs['usd'];
 	$kurs = $harga / $kursDolar;
-	return $kurs;
+	return "USD ".round($kurs, 2);
 }
 	function get_template_directory($path,$dir_file){
 		global $SConfig;
@@ -12,7 +13,51 @@ function convertUSD($harga){
 		$full_path = substr($replace_path,$get_digit_doc_root);
 		return $SConfig->_site_url.$full_path.'/'.$dir_file;
 	}
+	function connection(){
+		return mysqli_connect("localhost", "root", "rf09thebye", "aynabaya");
+	}
+  function sqlQuery($script){
+    return mysqli_query(connection(), $script);
+  }
+	function sqlInsert($table, $data){
+  	    if (is_array($data)) {
+  	        $key   = array_keys($data);
+  	        $kolom = implode(',', $key);
+  	        $v     = array();
+  	        for ($i = 0; $i < count($data); $i++) {
+  	            array_push($v, "'" . $data[$key[$i]] . "'");
+  	        }
+  	        $values = implode(',', $v);
+  	        $query  = "INSERT INTO $table ($kolom) VALUES ($values)";
+  	    } else {
+  	        $query = "INSERT INTO $table $data";
+  	    }
+  		  return $query;
 
+  	}
+  function sqlUpdate($table, $data, $where){
+      if (is_array($data)) {
+          $key   = array_keys($data);
+          $kolom = implode(',', $key);
+          $v     = array();
+          for ($i = 0; $i < count($data); $i++) {
+              array_push($v, $key[$i] . " = '" . $data[$key[$i]] . "'");
+          }
+          $values = implode(',', $v);
+          $query  = "UPDATE $table SET $values WHERE $where";
+      } else {
+          $query = "UPDATE $table SET $data WHERE $where";
+      }
+
+     return $query;
+  }
+	function sqlArray($sqlQuery){
+			return mysqli_fetch_assoc($sqlQuery);
+	}
+
+	function sqlRowCount($sqlQuery){
+			return mysqli_num_rows($sqlQuery);
+	}
 	function get_template($view){
 		$_this =& get_instance();
 		return $_this->site->view($view);
