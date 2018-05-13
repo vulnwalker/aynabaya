@@ -197,7 +197,7 @@
                           <div class="btn-group" role="group" style="width:60%;">
 
                             <h4 class="pull-left"><?php
-                            if($_POST['usd'] == '1'){
+                            if($_COOKIE['usdCookie'] == 'usd'){
                               echo convertUSD(post_meta('hargaReal',$post));
                             }else{
                               echo post_meta('price',$post);

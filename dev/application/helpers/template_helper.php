@@ -5,6 +5,14 @@ function convertUSD($harga){
 	$kurs = $harga / $kursDolar;
 	return "USD ".round($kurs, 2);
 }
+  function getShowingPrice($harga){
+    if($_COOKIE['usdCookie'] == 'usd'){
+      $price = convertUSD($harga);
+    }else{
+      $price = rupiah($harga);
+    }
+    return $price;
+  }
 	function get_template_directory($path,$dir_file){
 		global $SConfig;
 
@@ -14,7 +22,7 @@ function convertUSD($harga){
 		return $SConfig->_site_url.$full_path.'/'.$dir_file;
 	}
 	function connection(){
-		return mysqli_connect("localhost", "root", "rf09thebye", "aynabaya");
+		return mysqli_connect("localhost", "root", "", "aynabaya");
 	}
   function sqlQuery($script){
     return mysqli_query(connection(), $script);

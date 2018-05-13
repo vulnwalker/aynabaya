@@ -10,6 +10,25 @@ var delay = (function(){
 })();
 
 $(document).on('ready', function() {
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+  var usdCurrency = getCookie("usdCookie");
+  if(usdCurrency == ''){
+    document.cookie = "usdCookie=rupiah";
+  }
 
   /* close button untuk daftar list item top header menu */
   $('#closebtn').on("click", function(eve){

@@ -57,9 +57,9 @@ class Transaksi {
 					        <span class="glyphicon glyphicon-remove"></span>
 					    </button>
 				    </td>
-				    <td class="col-sm-1 col-xs-1 text-center"><strong class="cart-price">'.rupiah($items['price']).'</strong></td>
+				    <td class="col-sm-1 col-xs-1 text-center"><strong class="cart-price">'.getShowingPrice($items['price']).'</strong></td>
 				    <td class="col-sm-1 col-xs-1 text-center">
-				    	<strong class="cart-subtotal">'.rupiah($items['subtotal']).
+				    	<strong class="cart-subtotal">'.getShowingPrice($items['subtotal']).
 				    	'</strong>
 				    </td></tr>';
 			}
@@ -71,7 +71,7 @@ class Transaksi {
 	                        <td></td>
 	                        <td></td>
 	                        <td></td>
-	                        <td class="text-right"><strong><h5 id="cart-total">'.rupiah($_this->cart->total()).'</h5></strong></td>
+	                        <td class="text-right"><strong><h5 id="cart-total">'.getShowingPrice($_this->cart->total()).'</h5></strong></td>
 	                    </tr>
 	                    <tr>
 	                        <td></td>
@@ -239,10 +239,10 @@ class Transaksi {
         $post_detail->post_content .= '<tr class="shop-item">
                                         <td class="col-sm-6 col-xs-6">
                                           <h5 class="media-heading">'.$items['name'].'</h5>
-                                          <p class="help-block">@'.rupiah($items['price']).' ('.$post_attribute->post_weight.'gr)</p>
+                                          <p class="help-block">@'.getShowingPrice($items['price']).' ('.$post_attribute->post_weight.'gr)</p>
                                         </td>
                                         <td class="col-sm-1 col-xs-1" style="text-align: center"><p class="form-control-static">'.$items['qty'].'</p></td>
-                                        <td class="col-sm-2 col-xs-1 text-right"><strong>'.rupiah($items['subtotal']).'</strong></td>
+                                        <td class="col-sm-2 col-xs-1 text-right"><strong>'.getShowingPrice($items['subtotal']).'</strong></td>
                                       </tr>';
       }
 
@@ -251,7 +251,7 @@ class Transaksi {
     $post_detail->post_content .= '<tr>
                                     <td><h6>Subtotal</h6></td>
                                     <td></td>
-                                    <td class="text-right"><strong><h6>'.rupiah($_this->cart->total()).'</h6></strong></td>
+                                    <td class="text-right"><strong><h6>'.getShowingPrice($_this->cart->total()).'</h6></strong></td>
                                 </tr>
                                 <tr>
                                     <td><h6>Postal Code / Zip</h6></td>
@@ -461,10 +461,10 @@ class Transaksi {
           $post_detail->post_content .= '<tr class="shop-item">
                                           <td class="col-sm-6 col-xs-6">
                                             <h5 class="media-heading">'.$items['name'].'</h5>
-                                            <p class="help-block">@'.rupiah($items['price']).' ('.$post_attribute->post_weight.'gr)</p>
+                                            <p class="help-block">@'.getShowingPrice($items['price']).' ('.$post_attribute->post_weight.'gr)</p>
                                           </td>
                                           <td class="col-sm-1 col-xs-1" style="text-align: center"><p class="form-control-static">'.$items['qty'].'</p></td>
-                                          <td class="col-sm-2 col-xs-1 text-right"><strong>'.rupiah($items['subtotal']).'</strong></td>
+                                          <td class="col-sm-2 col-xs-1 text-right"><strong>'.getShowingPrice($items['subtotal']).'</strong></td>
                                         </tr>';
         }
 
@@ -473,22 +473,22 @@ class Transaksi {
       $post_detail->post_content .= '<tr>
                                       <td><h6>Subtotal</h6></td>
                                       <td></td>
-                                      <td class="text-right"><strong><h6>'.rupiah($_this->cart->total()).'</h6></strong></td>
+                                      <td class="text-right"><strong><h6>'.getShowingPrice($_this->cart->total()).'</h6></strong></td>
                                   </tr>
                                   <tr>
                                       <td><h6>Postal Code / Zip</h6></td>
                                       <td></td>
-                                      <td class="text-right"><strong><h6 id="ongkos-kirim">'.rupiah($session['total_ongkir']).'</h6></strong></td>
+                                      <td class="text-right"><strong><h6 id="ongkos-kirim">'.getShowingPrice($session['total_ongkir']).'</h6></strong></td>
                                   </tr>
                                   <tr>
                                       <td><h6>Unique Numbers</h6></td>
                                       <td></td>
-                                      <td class="text-right"><strong><h6>'.rupiah($session['digit_unique']).'</h6></strong></td>
+                                      <td class="text-right"><strong><h6>'.getShowingPrice($session['digit_unique']).'</h6></strong></td>
                                   </tr>
                                   <tr>
                                       <td><h5>Total</h5></td>
                                       <td></td>
-                                      <td class="text-right"><strong><h5 id="total-bayar">'.rupiah($session['total_transfer'] + $session['digit_unique']).'</h5></strong></td>
+                                      <td class="text-right"><strong><h5 id="total-bayar">'.getShowingPrice($session['total_transfer'] + $session['digit_unique']).'</h5></strong></td>
                                   </tr>
                               </tbody>
                           </table>';
@@ -500,7 +500,7 @@ class Transaksi {
                     <h4 class="text-center"><span class="label label-default">'.date('d-M-Y',strtotime("+3 days")).'</span></h4>
 
                     <p class="text-center">Make a payment of : </p>
-                    <h3 class="text-center">'.rupiah($session['total_transfer'] + $session['digit_unique']).'</h3>
+                    <h3 class="text-center">'.getShowingPrice($session['total_transfer'] + $session['digit_unique']).'</h3>
                     <p class="text-center">Right up to the last 2 digits, no less no more</p>
                     <p class="text-center"><i>If the amount you transfer is different with the above then Will hinder the verification process</i></p>
                     <p>&nbsp;</p>

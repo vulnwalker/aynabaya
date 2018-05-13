@@ -22,12 +22,7 @@ class Produk extends Frontend_Controller {
 			$this->site->view('index', $data);
 		}
 	}
-	public function convertUSD($harga){
-		$kursDolar = 14000;
-		$kurs = $harga / $kursDolar;
-		return $kurs;
-		// $this->site->view('produk', $kurs);
-	}
+
 	public function kategori(){
 		$data = array();
 		$this->site->_isCategory = TRUE;
