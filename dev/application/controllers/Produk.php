@@ -6,7 +6,14 @@ class Produk extends Frontend_Controller {
 	public function __construct(){
 		parent::__construct();
 	}
-
+	function getShowingPricePost($harga){
+		if($_POST['usdCookie'] == 'usd'){
+			$price = convertUSD($harga);
+		}else{
+			$price = rupiah($harga);
+		}
+		return $price;
+	}
 	public function index(){
 		$data = array();
 
@@ -102,8 +109,8 @@ class Produk extends Frontend_Controller {
 					$data = array_merge( $data,
 						array(
 							'status' => 'success',
-							'subtotal' => rupiah($post_detail->post_discount * $post['qty']),
-							'total' => rupiah($this->cart->total())
+							'subtotal' => $this->getShowingPricePost($post_detail->post_discount * $post['qty']),
+							'total' => $this->getShowingPricePost($this->cart->total())
 						)
 					);
 
@@ -145,20 +152,22 @@ class Produk extends Frontend_Controller {
 					}
 
 					$total_berat_up = (ceiling($total_berat,1000) / 1000) ;
-
+					$totalTransfer = ($total_berat_up * $ongkir[1]) + $this->cart->total();
+					$totalOngkir = $total_berat_up * $ongkir[1];
 					$data = array(
 						'tipe_ongkir' => $ongkir[0],
 						'ongkir' => $ongkir[1],
-						'total_ongkir' => $total_berat_up * $ongkir[1],
-						'total_transfer' => ($total_berat_up * $ongkir[1]) + $this->cart->total(),
-						'digit_unique' => rand(1, 200)
+						'total_ongkir' => $this->getShowingPricePost($totalOngkir),
+						'total_transfer' => $this->getShowingPricePost($totalTransfer),
+						'digit_unique' => rand(1, 200),
+						'hubla' => $this->getShowingPricePost(10000)
 					);
 
 					$this->session->set_userdata($data);
 
 					/* untuk ditampilkan */
-					$data['total_ongkir'] = rupiah($total_berat_up * $ongkir[1]);
-					$data['total_transfer'] = rupiah(($total_berat_up * $ongkir[1]) + $this->cart->total());
+					// $data['total_ongkir'] = $this->getShowingPricePost($total_berat_up * $ongkir[1]);
+					// $data['total_transfer'] = $this->getShowingPricePost(($total_berat_up * $ongkir[1]) + $this->cart->total());
 					echo json_encode($data);
 			    }
 			}

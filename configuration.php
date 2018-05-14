@@ -6,7 +6,7 @@
 
 		var $_site_url = "http://aynabaya/";
 
-		var $_document_root = "C://xampp/htdocs/aynabaya";
+		var $_document_root = "/home/kszxpo/public_html/aynabaya/";
 
 		var $_host_name = "localhost";
 
@@ -16,7 +16,7 @@
 
 		var $_database_user = "root";
 
-		var $_database_password = "";
+		var $_database_password = "rf09thebye";
 
 		var $_table_prefix = "tbl_";
 

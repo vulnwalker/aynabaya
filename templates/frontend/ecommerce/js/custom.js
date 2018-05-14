@@ -187,7 +187,10 @@ $(document).on('ready', function() {
     $.ajax('../../produk/transaksi/update_ongkir', {
       dataType : 'json',
       type : 'POST',
-      data: {ongkir:ongkir},
+      data: {
+              ongkir:ongkir,
+              usdCookie : getCookie("usdCookie")
+            },
       success: function(data){
         $('#ongkos-kirim').text(data.total_ongkir).fadeOut().fadeIn();
         $('#total-bayar').text(data.total_transfer).fadeOut().fadeIn();
