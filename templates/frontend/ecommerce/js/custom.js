@@ -28,6 +28,7 @@ $(document).on('ready', function() {
   var usdCurrency = getCookie("usdCookie");
   if(usdCurrency == ''){
     document.cookie = "usdCookie=rupiah";
+    window.location.reload();
   }
 
   /* close button untuk daftar list item top header menu */

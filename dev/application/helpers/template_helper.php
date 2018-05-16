@@ -21,6 +21,17 @@ function convertUSD($harga){
 		$full_path = substr($replace_path,$get_digit_doc_root);
 		return $SConfig->_site_url.$full_path.'/'.$dir_file;
 	}
+	function cmbQuery($name='txtField', $value='', $query='', $param='', $Atas='Pilih', $vAtas='') {
+	    global $Ref;
+	    $Input = "<option value='$vAtas'>$Atas</option>";
+	    $Query = sqlQuery($query);
+	    while ($Hasil = mysqli_fetch_array($Query)) {
+	        $Sel = $Hasil[0] == $value ? "selected" : "";
+	        $Input .= "<option $Sel value='{$Hasil[0]}'>{$Hasil[1]}";
+	    }
+	    $Input = "<select $param name='$name' id='$name'>$Input</select>";
+	    return $Input;
+	}
 	function connection(){
 		return mysqli_connect("localhost", "root", "rf09thebye", "aynabaya");
 	}
