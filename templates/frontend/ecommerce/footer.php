@@ -110,10 +110,13 @@ It's here for you, your ethereal basic needs.<p>
      function setCookieUSD(){
        document.cookie = "usdCookie=usd";
        window.location.reload();
-     } 
+     }
      function setCookieRupiah(){
        document.cookie = "usdCookie=rupiah";
        window.location.reload();
+     }
+     function gotToEMS(){
+       window.location = "pembayaranEMS"
      }
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){

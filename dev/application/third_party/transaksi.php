@@ -203,7 +203,7 @@ class Transaksi {
                           </div>
                           <div class="form-group">
 														<div class="col-xs-offset-3 col-xs-9">
-																<button type="button" class="btn btn-primary input-block-level"><span class="glyphicon glyphicon-ok"></span> Out Of Country ?</button>
+																<button type="button" class="btn btn-primary input-block-level" onclick=gotToEMS();><span class="glyphicon glyphicon-ok"></span> Out Of Country ?</button>
 														</div>
                           </div>
 
