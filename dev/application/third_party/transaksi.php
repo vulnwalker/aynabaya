@@ -107,7 +107,8 @@ class Transaksi {
       $post_detail->post_content .= '<p class="help-block">'.$_this->session->flashdata('message').'</p>';
     }
 
-    $post_detail->post_content .= '<form class="form-horizontal" id="form-order" method="POST" action="'.base_url('halaman/transaksi/tagihan_pembelian').'">
+    $post_detail->post_content .= '
+												<form class="form-horizontal" id="form-order" method="POST" action="'.base_url('halaman/transaksi/tagihan_pembelian').'">
                           <div class="form-group">
                             <label class="control-label col-xs-3">Name</label>
                             <div class="col-xs-9">
@@ -138,26 +139,12 @@ class Transaksi {
                           </div>
 
                           <div class="form-group">
-                            <label class="control-label col-xs-3">State</label>
+                            <label class="control-label col-xs-3">Country</label>
                             <div class="col-xs-9">
-                                '.form_dropdown_provinsi().'
+                                '.cmbQuery("countryName","","select kode, negara from tbl_ems ", "onchange=countryChanged(); class='form-control' ","Choose Country").'
                             </div>
                           </div>
-
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">City</label>
-                            <div class="col-xs-9">
-                                <select name="kota" id="kota" class="form-control" required><option value="" selected="">Choose City </option></select>
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">District</label>
-                            <div class="col-xs-9">
-                                <select name="kecamatan" id="kecamatan" class="form-control" required><option value="" selected="">Choose District</option></select>
-                            </div>
-                          </div>
-
+													<span id="addressIndonesia"> </span>
                           <div class="form-group">
                             <label class="control-label col-xs-3">Full Address</label>
                             <div class="col-xs-9">
@@ -201,14 +188,7 @@ class Transaksi {
                                 <button type="submit" class="btn btn-primary input-block-level"><span class="glyphicon glyphicon-ok"></span> Order Now!</button>
                             </div>
                           </div>
-                          <div class="form-group">
-														<div class="col-xs-offset-3 col-xs-9">
-																<button type="button" class="btn btn-primary input-block-level" onclick=gotToEMS();><span class="glyphicon glyphicon-ok"></span> Out Of Country ?</button>
-														</div>
-                          </div>
-
                         </form>
-
                       </div>
 
                       <div class="col-md-6">
@@ -276,168 +256,67 @@ class Transaksi {
 		$post_detail->post_attribute = json_encode(array());
     $_this->post->post_detail = $post_detail;
 	}
-	public function pembayaranEMS(){
-		$_this =& get_instance();
-		$post_detail = new stdClass();
-		$post_detail->post_title = 'Order Form EMS';
-		$post_detail->post_content = '<div class="row">
-                      <div class="col-md-6">';
-
-    if($_this->session->flashdata('message')){
-      $post_detail->post_content .= '<p class="help-block">'.$_this->session->flashdata('message').'</p>';
+	public function jsonGenerator(){
+    $cek = ''; $err=''; $content='';
+    foreach ($_POST as $key => $value) {
+       $$key = $value;
     }
+	  switch($_GET['API']){
+      case 'countryChanged':{
+				$_this =& get_instance();
+				$cart = $_this->cart->contents();
+				$totalBeratProduk = 0 ;
+		    foreach ($cart as $items){
+		      $produk_ID[] = $items['id'];
+					$getDataProduk = sqlArray(sqlQuery("select * from tbl_post where post_ID = '".$items['id']."'"));
+					$produkAtribute = json_decode($getDataProduk['post_attribute']);
+					$totalBeratProduk += ($produkAtribute->post_weight * $items['qty'])  ;
+		    }
+				if($countryName != 'ID'){
+					$getDataEMS = getPriceEMS($totalBeratProduk,$countryName);
 
-    $post_detail->post_content .= '<form class="form-horizontal" id="form-order" method="POST" action="'.base_url('halaman/transaksi/tagihan_pembelian').'">
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">Name</label>
-                            <div class="col-xs-9">
-                                <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" placeholder="Fill in the full name here" required>
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">Email</label>
-                            <div class="col-xs-9">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email"  required>
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">Mobile Number</label>
-                            <div class="col-xs-9">
-                                <input type="text" class="form-control" id="no_hp" name="no_hp" placeholder="+xx-xxxx" required>
-                                <p class="help-block">Required for confirmation from the expedition</p>
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">Phone Number</label>
-                            <div class="col-xs-9">
-                                <input type="text" class="form-control" id="no_telepon" name="no_telepon" placeholder="+xx-xxxx" required>
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">State</label>
-                            <div class="col-xs-9">
-                                '.cmbQuery("negaraTujuan","negaraTujuan","select id, negara from tbl_ems ","onchange=getOngkirEMS(); class='form-control'","-- Purpose Country --").'
-                            </div>
-                          </div>
+				}
 
 
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">Full Address</label>
-                            <div class="col-xs-9">
-                                <textarea class="form-control" name="alamat_lengkap" rows="2" placeholder="Fill full address here..." required></textarea>
-                            </div>
-                          </div>
+				$content = array(
+					'addressIndonesia' => "<div class='form-group'>
+													          <label class='control-label col-xs-3'>State</label>
+													          <div class='col-xs-9'>
+													              ".form_dropdown_provinsi()."
+													          </div>
+													        </div>
 
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">Select Rates JNE</label>
-                            <div class="col-xs-9">
-                                <select class="form-control" id="select_tarif_jne" name="select_tarif_jne" required>
-                                  <option>Choose Postage Type</option>
-                                </select>
-                            </div>
-                          </div>
+													        <div class='form-group'>
+													          <label class='control-label col-xs-3'>City</label>
+													          <div class='col-xs-9'>
+													              <select name='kota' id='kota' class='form-control' required><option value='' selected=''>Choose City </option></select>
+													          </div>
+													        </div>
+													        <div class='form-group'>
+													          <label class='control-label col-xs-3'>District</label>
+													          <div class='col-xs-9'>
+													              <select name='kecamatan' id='kecamatan' class='form-control' required><option value='' selected=''>Choose District</option></select>
+													          </div>
+													        </div>
+																	",
+						'addressEms' => "<span id='addressIndonesia'></span>",
+						'totalBerat' => $totalBeratProduk,
+						'bulatanArray' => $getDataEMS
 
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">Membership</label>
-                            <div class="col-xs-9">
-                                <div class="checkbox">
-                                    <label><input type="checkbox" name="member" id="member" value="yes"> Signup to Membership</label>
-                                </div>
-                                <p class="help-block">If this is diceklis then you have to fill the bottom</p>
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">Username</label>
-                            <div class="col-xs-9">
-                                <input type="text" class="form-control" id="username" name="username">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">Password</label>
-                            <div class="col-xs-9">
-                                <input type="password" class="form-control" id="password" name="password">
-                            </div>
-                          </div>
+			);
 
-                          <div class="form-group">
-                            <div class="col-xs-offset-3 col-xs-9">
-                                <button type="submit" class="btn btn-primary input-block-level"><span class="glyphicon glyphicon-ok"></span> Order Now!</button>
-                            </div>
-                          </div>
+  		break;
+  		}
 
-                        </form>
 
-                      </div>
-
-                      <div class="col-md-6">
-
-                        <h4 class="lead">Shopping list</h4>
-
-                        <table class="table table-striped" id="list-fix-order">
-                            <thead>
-                                <tr>
-                                    <th>Produk</th>
-                                    <th>Jumlah</th>
-                                    <th class="text-center">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>';
-
-    $cart = $_this->cart->contents();
-
-    /* mengambil semua id product dari cart */
-    foreach ($cart as $items){
-      $produk_ID[] = $items['id'];
-    }
-
-    if(isset($produk_ID)){
-      $produk_detail = $_this->Produk_model->get_produk(NULL,NULL,NULL,NULL,NULL,$produk_ID);
-
-      foreach($produk_detail as $record){
-        $item_detail[$record->post_ID] = $record;
+      default:{
+        $content = "API NOT FOUND";
+      break;
       }
+	 }
 
-      foreach ($cart as $items){
-        $post_attribute = json_decode($item_detail[$items['id']]->post_attribute);
-        $post_detail->post_content .= '<tr class="shop-item">
-                                        <td class="col-sm-6 col-xs-6">
-                                          <h5 class="media-heading">'.$items['name'].'</h5>
-                                          <p class="help-block">@'.getShowingPrice($items['price']).' ('.$post_attribute->post_weight.'gr)</p>
-                                        </td>
-                                        <td class="col-sm-1 col-xs-1" style="text-align: center"><p class="form-control-static">'.$items['qty'].'</p></td>
-                                        <td class="col-sm-2 col-xs-1 text-right"><strong>'.getShowingPrice($items['subtotal']).'</strong></td>
-                                      </tr>';
-      }
-
-    }
-
-    $post_detail->post_content .= '<tr>
-                                    <td><h6>Subtotal</h6></td>
-                                    <td></td>
-                                    <td class="text-right"><strong><h6>'.getShowingPrice($_this->cart->total()).'</h6></strong></td>
-                                </tr>
-                                <tr>
-                                    <td><h6>Postal Code / Zip</h6></td>
-                                    <td></td>
-                                    <td class="text-right"><strong><h6 id="ongkos-kirim">-</h6></strong></td>
-                                </tr>
-                                <tr>
-                                    <td><h5>Total</h5></td>
-                                    <td></td>
-                                    <td class="text-right"><strong><h5 id="total-bayar">-</h5></strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                      </div></div>';
-
-		$post_detail->post_attribute = json_encode(array());
-    $_this->post->post_detail = $post_detail;
-	}
+    echo  json_encode(array ('cek'=>$cek, 'err'=>$err, 'content'=>$content)) . "dropString";
+  }
 
 	public function tagihan_pembelian(){
 		$_this =& get_instance();

@@ -32,6 +32,21 @@ function convertUSD($harga){
 	    $Input = "<select $param name='$name' id='$name'>$Input</select>";
 	    return $Input;
 	}
+	function getPriceEMS($search,$countryName) {
+		 $getDataEMS = sqlArray(sqlQuery("select * from tbl_ems where kode = '$countryName'"));
+     $arr = array(250, 500, 1000, 1500, 2000, 2500, 3000,3500,4000,4500,5000,5500,6000,6500,7000,7500,8000,8500,9000,9500,10000);
+		 $closest = null;
+	   foreach ($arr as $item) {
+	      if ($closest === null || abs($search - $closest) > abs($item - $search)) {
+					if($search <= $item){
+						$closest = $item;
+					}else{
+						$closest = $item + 500;
+					}
+	      }
+	   }
+	   return $getDataEMS[(string)$closest];
+ }
 	function connection(){
 		return mysqli_connect("localhost", "root", "rf09thebye", "aynabaya");
 	}

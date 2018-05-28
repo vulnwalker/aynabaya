@@ -398,3 +398,23 @@ function formatString(string){
 function formatNumber(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
 }
+var baseUrl = "http://aynabaya/halaman/transaksi/jsonGenerator";
+function countryChanged(){
+  $.ajax({
+        type: "POST",
+        data: $("#form-order").serialize(),
+        url: baseUrl+"?API=countryChanged",
+        success: function(data) {
+          var resp = eval("(" + data.substring(0, data.indexOf("dropString")) + ")");
+          if (resp.err == "") {
+              if($("#countryName").val() == 'ID'){
+                $("#addressIndonesia").html(resp.content.addressIndonesia);
+              }else{
+                $("#addressIndonesia").html(resp.content.addressEms);
+              }
+          } else {
+            alert(resp.err);
+          }
+        }
+  });
+}
