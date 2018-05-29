@@ -387,23 +387,44 @@ class Transaksi {
       /* Masukkan ke dalam keranjang belanja dalam database */
       $date = date('Y-m-d H:i:s');
       $session = $_this->session->userdata;
+			$cart = $_this->cart->contents();
+			$kelipatanOngkir = 0;
+			if($post['countryName'] == 'ID'){
+	      foreach($cart as $items){
+					$getDataProduk = sqlArray(sqlQuery("select * from tbl_post where post_ID = '".$items['id']."'"));
+					$produkAtribute = json_decode($getDataProduk['post_attribute']);
+					$kelipatanOngkir += $items['qty'] * $produkAtribute->post_weight ;
 
-      $data_transaksi = array(
-          'transaction_status' => 'pending',
-          'user_id' =>  $user_id,
-          'transaction_time' => $date,
-          'total' => $_this->cart->total(),
-          'random' => $session['digit_unique'],
-          'tax' => $session['ongkir'],
-          'total_tax' => $session['total_ongkir'],
-          'all_total' => $_this->cart->total() + $session['total_ongkir'] + $session['digit_unique'],
-          'tax_type' => $session['tipe_ongkir'],
-        );
+	      }
+				$data_transaksi = array(
+	          'transaction_status' => 'pending',
+	          'user_id' =>  $user_id,
+	          'transaction_time' => $date,
+	          'total' => $_this->cart->total(),
+	          'random' => $session['digit_unique'],
+	          'tax' => $session['ongkir'],
+	          'total_tax' => $session['ongkir'] * ($kelipatanOngkir / 1000),
+	          'all_total' => $_this->cart->total() + ($session['ongkir'] * ($kelipatanOngkir / 1000)) + $session['digit_unique'],
+	          'tax_type' => $session['tipe_ongkir'],
+	        );
+			}else{
+				$data_transaksi = array(
+	          'transaction_status' => 'pending',
+	          'user_id' =>  $user_id,
+	          'transaction_time' => $date,
+	          'total' => $_this->cart->total(),
+	          'random' => $session['digit_unique'],
+	          'tax' => $session['ongkir'],
+	          'total_tax' => $session['ongkir'],
+	          'all_total' => $_this->cart->total() + $session['ongkir'] + $session['digit_unique'],
+	          'tax_type' => $session['tipe_ongkir'],
+	        );
+			}
+
 
       $id_transaksi = $_this->Transaksi_model->insert($data_transaksi);
 
       /* Masukkan detil transaksi ke dalam database */
-      $cart = $_this->cart->contents();
       $data_detail_transaksi = array();
 
 
@@ -462,6 +483,8 @@ class Transaksi {
       /* form tagihan */
       $post_detail = new stdClass();
       $post_detail->post_title = 'Invoice / Purchase Bill';
+			$getDataTransaksi = sqlArray(sqlQuery("Select * from tbl_transaction where transaction_id = '$id_transaksi'"));
+
       $post_detail->post_content = '<div class="row">
                       <div class="col-md-12"><p class="text-center">Thank you, you have successfully made the order, this transaction is recorded as an invoice number <strong>'.$id_transaksi.'</strong></p>
 
@@ -510,12 +533,12 @@ class Transaksi {
       $post_detail->post_content .= '<tr>
                                       <td><h6>Subtotal</h6></td>
                                       <td></td>
-                                      <td class="text-right"><strong><h6>'.getShowingPrice($_this->cart->total()).'</h6></strong></td>
+                                      <td class="text-right"><strong><h6>'.getShowingPrice($getDataTransaksi['all_total']).'</h6></strong></td>
                                   </tr>
                                   <tr>
                                       <td><h6>Postal Code / Zip</h6></td>
                                       <td></td>
-                                      <td class="text-right"><strong><h6 id="ongkos-kirim">'.getShowingPrice($session['total_ongkir']).'</h6></strong></td>
+                                      <td class="text-right"><strong><h6 id="ongkos-kirim">'.getShowingPrice($getDataTransaksi['total_tax']).'</h6></strong></td>
                                   </tr>
                                   <tr>
                                       <td><h6>Unique Numbers</h6></td>
@@ -525,7 +548,7 @@ class Transaksi {
                                   <tr>
                                       <td><h5>Total</h5></td>
                                       <td></td>
-                                      <td class="text-right"><strong><h5 id="total-bayar">'.getShowingPrice($session['total_transfer'] + $session['digit_unique']).'</h5></strong></td>
+                                      <td class="text-right"><strong><h5 id="total-bayar">'.getShowingPrice($getDataTransaksi['all_total']).'</h5></strong></td>
                                   </tr>
                               </tbody>
                           </table>';
@@ -537,7 +560,7 @@ class Transaksi {
                     <h4 class="text-center"><span class="label label-default">'.date('d-M-Y',strtotime("+3 days")).'</span></h4>
 
                     <p class="text-center">Make a payment of : </p>
-                    <h3 class="text-center">'.getShowingPrice($session['total_transfer'] + $session['digit_unique']).'</h3>
+                    <h3 class="text-center">'.getShowingPrice($getDataTransaksi['all_total'] ).'</h3>
                     <p class="text-center">Right up to the last 2 digits, no less no more</p>
                     <p class="text-center"><i>If the amount you transfer is different with the above then Will hinder the verification process</i></p>
                     <p>&nbsp;</p>
