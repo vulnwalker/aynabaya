@@ -159,8 +159,7 @@ class Produk extends Frontend_Controller {
 						'ongkir' => $ongkir[1],
 						'total_ongkir' => $this->getShowingPricePost($totalOngkir),
 						'total_transfer' => $this->getShowingPricePost($totalTransfer),
-						'digit_unique' => rand(1, 200),
-						'hubla' => $this->getShowingPricePost(10000)
+						'digit_unique' => rand(1, 200)
 					);
 
 					$this->session->set_userdata($data);

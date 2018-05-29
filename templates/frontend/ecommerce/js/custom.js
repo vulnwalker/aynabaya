@@ -411,6 +411,8 @@ function countryChanged(){
                 $("#addressIndonesia").html(resp.content.addressIndonesia);
               }else{
                 $("#addressIndonesia").html(resp.content.addressEms);
+                $('#ongkos-kirim').text(resp.content.ongkosKirim).fadeOut().fadeIn();
+                $('#total-bayar').text(resp.content.totalBayar).fadeOut().fadeIn();
               }
           } else {
             alert(resp.err);

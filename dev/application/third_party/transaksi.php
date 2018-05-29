@@ -141,7 +141,7 @@ class Transaksi {
                           <div class="form-group">
                             <label class="control-label col-xs-3">Country</label>
                             <div class="col-xs-9">
-                                '.cmbQuery("countryName","","select kode, negara from tbl_ems ", "onchange=countryChanged(); class='form-control' ","Choose Country").'
+                                '.cmbQuery("countryName","","select kode, negara from tbl_ems order by negara asc", "onchange=countryChanged(); class='form-control' ","Choose Country").'
                             </div>
                           </div>
 													<span id="addressIndonesia"> </span>
@@ -152,14 +152,7 @@ class Transaksi {
                             </div>
                           </div>
 
-                          <div class="form-group">
-                            <label class="control-label col-xs-3">Select Rates JNE</label>
-                            <div class="col-xs-9">
-                                <select class="form-control" id="select_tarif_jne" name="select_tarif_jne" required>
-                                  <option>Choose Postage Type</option>
-                                </select>
-                            </div>
-                          </div>
+
 
                           <div class="form-group">
                             <label class="control-label col-xs-3">Membership</label>
@@ -266,44 +259,64 @@ class Transaksi {
 				$_this =& get_instance();
 				$cart = $_this->cart->contents();
 				$totalBeratProduk = 0 ;
+				$sumSubTotal = 0;
 		    foreach ($cart as $items){
 		      $produk_ID[] = $items['id'];
 					$getDataProduk = sqlArray(sqlQuery("select * from tbl_post where post_ID = '".$items['id']."'"));
 					$produkAtribute = json_decode($getDataProduk['post_attribute']);
 					$totalBeratProduk += ($produkAtribute->post_weight * $items['qty'])  ;
+					$sumSubTotal+= $items['subtotal'];
 		    }
 				if($countryName != 'ID'){
 					$getDataEMS = getPriceEMS($totalBeratProduk,$countryName);
+					$content = array(
+							'addressEms' => "<span id='addressIndonesia'></span>",
+							'totalBerat' => $totalBeratProduk,
+							'bulatanArray' => $getDataEMS,
+							'subTotal' => $sumSubTotal,
+							'ongkosKirim' => getShowingPrice(converRupiah($getDataEMS)),
+							'totalBayar' => getShowingPrice($sumSubTotal + converRupiah($getDataEMS)),
+
+						);
+
+				}else{
+					$content = array(
+						'addressIndonesia' => "<div class='form-group'>
+														          <label class='control-label col-xs-3'>State</label>
+														          <div class='col-xs-9'>
+														              ".form_dropdown_provinsi()."
+														          </div>
+														        </div>
+
+														        <div class='form-group'>
+														          <label class='control-label col-xs-3'>City</label>
+														          <div class='col-xs-9'>
+														              <select name='kota' id='kota' class='form-control' required><option value='' selected=''>Choose City </option></select>
+														          </div>
+														        </div>
+														        <div class='form-group'>
+														          <label class='control-label col-xs-3'>District</label>
+														          <div class='col-xs-9'>
+														              <select name='kecamatan' id='kecamatan' class='form-control' required><option value='' selected=''>Choose District</option></select>
+														          </div>
+														        </div>
+																		<div class='form-group'>
+																		  <label class='control-label col-xs-3'>Select Rates JNE</label>
+																		  <div class='col-xs-9'>
+																		      <select class='form-control' id='select_tarif_jne' name='select_tarif_jne' required>
+																		        <option>Choose Postage Type</option>
+																		      </select>
+																		  </div>
+																		</div>
+																		",
+							'addressEms' => "<span id='addressIndonesia'></span>",
+						);
 
 				}
 
 
-				$content = array(
-					'addressIndonesia' => "<div class='form-group'>
-													          <label class='control-label col-xs-3'>State</label>
-													          <div class='col-xs-9'>
-													              ".form_dropdown_provinsi()."
-													          </div>
-													        </div>
 
-													        <div class='form-group'>
-													          <label class='control-label col-xs-3'>City</label>
-													          <div class='col-xs-9'>
-													              <select name='kota' id='kota' class='form-control' required><option value='' selected=''>Choose City </option></select>
-													          </div>
-													        </div>
-													        <div class='form-group'>
-													          <label class='control-label col-xs-3'>District</label>
-													          <div class='col-xs-9'>
-													              <select name='kecamatan' id='kecamatan' class='form-control' required><option value='' selected=''>Choose District</option></select>
-													          </div>
-													        </div>
-																	",
-						'addressEms' => "<span id='addressIndonesia'></span>",
-						'totalBerat' => $totalBeratProduk,
-						'bulatanArray' => $getDataEMS
 
-			);
 
   		break;
   		}
@@ -323,53 +336,93 @@ class Transaksi {
     $_this->load->library('form_validation','email');
     $_this->load->model(array('Transaksi_model','Pengiriman_model','Transaksi_detil_model'));
 
-    $rules_pemesanan = array(
-        'nama_lengkap' => array(
-          'field' => 'nama_lengkap',
-          'label' => 'Nama',
-          'rules' => 'trim|required'
-        ),
-        'email' => array(
-          'field' => 'email',
-          'label' => 'Email',
-          'rules' => 'trim|required|valid_email'
-        ),
-        'no_hp' => array(
-          'field' => 'no_hp',
-          'label' => 'No. Handphone',
-          'rules' => 'required'
-        ),
-        'no_telepon' => array(
-          'field' => 'no_telepon',
-          'label' => 'No. Telephone',
-          'rules' => 'required'
-        ) ,
-        'provinsi' => array(
-          'field' => 'provinsi',
-          'label' => 'Provinsi',
-          'rules' => 'required'
-        ),
-        'kota' => array(
-          'field' => 'kota',
-          'label' => 'Kota',
-          'rules' => 'required'
-        ),
-        'kecamatan' => array(
-          'field' => 'kecamatan',
-          'label' => 'Kecamatan',
-          'rules' => 'required'
-        ),
-        'alamat_lengkap' => array(
-          'field' => 'alamat_lengkap',
-          'label' => 'Alamat Lengkap',
-          'rules' => 'required'
-        ),
-        'select_tarif_jne' => array(
-          'field' => 'select_tarif_jne',
-          'label' => 'Tarif JNE',
-          'rules' => 'required'
-        )
-    );
+    if($_POST['countryName'] != 'ID'){
+			$rules_pemesanan = array(
+	        'nama_lengkap' => array(
+	          'field' => 'nama_lengkap',
+	          'label' => 'Nama',
+	          'rules' => 'trim|required'
+	        ),
+	        'email' => array(
+	          'field' => 'email',
+	          'label' => 'Email',
+	          'rules' => 'trim|required|valid_email'
+	        ),
+	        'no_hp' => array(
+	          'field' => 'no_hp',
+	          'label' => 'No. Handphone',
+	          'rules' => 'required'
+	        ),
+	        'no_telepon' => array(
+	          'field' => 'no_telepon',
+	          'label' => 'No. Telephone',
+	          'rules' => 'required'
+	        ),
+	        'alamat_lengkap' => array(
+	          'field' => 'alamat_lengkap',
+	          'label' => 'Alamat Lengkap',
+	          'rules' => 'required'
+	        ),
+	        'countryName' => array(
+	          'field' => 'countryName',
+	          'label' => 'Country',
+	          'rules' => 'required'
+	        )
+	    );
+		}else{
+			$rules_pemesanan = array(
+	        'nama_lengkap' => array(
+	          'field' => 'nama_lengkap',
+	          'label' => 'Nama',
+	          'rules' => 'trim|required'
+	        ),
+	        'email' => array(
+	          'field' => 'email',
+	          'label' => 'Email',
+	          'rules' => 'trim|required|valid_email'
+	        ),
+	        'no_hp' => array(
+	          'field' => 'no_hp',
+	          'label' => 'No. Handphone',
+	          'rules' => 'required'
+	        ),
+	        'no_telepon' => array(
+	          'field' => 'no_telepon',
+	          'label' => 'No. Telephone',
+	          'rules' => 'required'
+	        ) ,
+	        'provinsi' => array(
+	          'field' => 'provinsi',
+	          'label' => 'Provinsi',
+	          'rules' => 'required'
+	        ),
+	        'kota' => array(
+	          'field' => 'kota',
+	          'label' => 'Kota',
+	          'rules' => 'required'
+	        ),
+	        'kecamatan' => array(
+	          'field' => 'kecamatan',
+	          'label' => 'Kecamatan',
+	          'rules' => 'required'
+	        ),
+	        'alamat_lengkap' => array(
+	          'field' => 'alamat_lengkap',
+	          'label' => 'Alamat Lengkap',
+	          'rules' => 'required'
+	        ),
+	        'select_tarif_jne' => array(
+	          'field' => 'select_tarif_jne',
+	          'label' => 'Tarif JNE',
+	          'rules' => 'required'
+	        ),
+	        'countryName' => array(
+	          'field' => 'countryName',
+	          'label' => 'Country',
+	          'rules' => 'required'
+	        )
+	    );
+		}
 
     $_this->form_validation->set_rules($rules_pemesanan);
 

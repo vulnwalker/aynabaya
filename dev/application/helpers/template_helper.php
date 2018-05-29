@@ -5,6 +5,12 @@ function convertUSD($harga){
 	$kurs = $harga / $kursDolar;
 	return "USD ".round($kurs, 2);
 }
+function converRupiah($harga){
+	$getKurs = sqlArray(sqlQuery("select * from kurs"));
+	$kursDolar = $getKurs['usd'];
+	$kurs = $harga * $kursDolar;
+	return round($kurs, 2);
+}
   function getShowingPrice($harga){
     if($_COOKIE['usdCookie'] == 'usd'){
       $price = convertUSD($harga);
