@@ -271,8 +271,8 @@ class Produk extends Frontend_Controller {
 					$data = array(
 			      'tipe_ongkir' => "EMS",
 			      'ongkir' => converRupiah($getDataEMS),
-			      'total_ongkir' => getShowingPrice(converRupiah($getDataEMS)),
-			      'total_transfer' => getShowingPrice($sumSubTotal + converRupiah($getDataEMS)),
+			      'total_ongkir' => $this->getShowingPricePost(converRupiah($getDataEMS)),
+			      'total_transfer' => $this->getShowingPricePost($sumSubTotal + converRupiah($getDataEMS)),
 			      'digit_unique' => rand(1, 200)
 			    );
 
@@ -282,8 +282,8 @@ class Produk extends Frontend_Controller {
 							'totalBerat' => $totalBeratProduk,
 							'bulatanArray' => $getDataEMS,
 							'subTotal' => $sumSubTotal,
-							'ongkosKirim' => getShowingPrice(converRupiah($getDataEMS)),
-							'totalBayar' => getShowingPrice($sumSubTotal + converRupiah($getDataEMS)),
+							'ongkosKirim' => $this->getShowingPricePost(converRupiah($getDataEMS)),
+							'totalBayar' => $this->getShowingPricePost($sumSubTotal + converRupiah($getDataEMS)),
 
 						);
 
