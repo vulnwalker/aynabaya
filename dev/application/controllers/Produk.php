@@ -249,8 +249,85 @@ class Produk extends Frontend_Controller {
 
 				echo json_encode(array('status' => 'success'));
 			}
+
+			else if($action == 'countryChanged'){
+				$cek = ''; $err=''; $content='';
+				foreach ($_POST as $key => $value) {
+					 $$key = $value;
+				}
+				$_this =& get_instance();
+				$cart = $_this->cart->contents();
+				$totalBeratProduk = 0 ;
+				$sumSubTotal = 0;
+				foreach ($cart as $items){
+					$produk_ID[] = $items['id'];
+					$getDataProduk = sqlArray(sqlQuery("select * from tbl_post where post_ID = '".$items['id']."'"));
+					$produkAtribute = json_decode($getDataProduk['post_attribute']);
+					$totalBeratProduk += ($produkAtribute->post_weight * $items['qty'])  ;
+					$sumSubTotal+= $items['subtotal'];
+				}
+				if($countryName != 'ID'){
+					$getDataEMS = getPriceEMS($totalBeratProduk,$countryName);
+					$data = array(
+			      'tipe_ongkir' => "EMS",
+			      'ongkir' => converRupiah($getDataEMS),
+			      'total_ongkir' => getShowingPrice(converRupiah($getDataEMS)),
+			      'total_transfer' => getShowingPrice($sumSubTotal + converRupiah($getDataEMS)),
+			      'digit_unique' => rand(1, 200)
+			    );
+
+			    $this->session->set_userdata($data);
+					$content = array(
+							'addressEms' => "<span id='addressIndonesia'></span>",
+							'totalBerat' => $totalBeratProduk,
+							'bulatanArray' => $getDataEMS,
+							'subTotal' => $sumSubTotal,
+							'ongkosKirim' => getShowingPrice(converRupiah($getDataEMS)),
+							'totalBayar' => getShowingPrice($sumSubTotal + converRupiah($getDataEMS)),
+
+						);
+
+				}else{
+					$content = array(
+						'addressIndonesia' => "<div class='form-group'>
+																			<label class='control-label col-xs-3'>State</label>
+																			<div class='col-xs-9'>
+																					".form_dropdown_provinsi()."
+																			</div>
+																		</div>
+
+																		<div class='form-group'>
+																			<label class='control-label col-xs-3'>City</label>
+																			<div class='col-xs-9'>
+																					<select name='kota' id='kota' class='form-control' required><option value='' selected=''>Choose City </option></select>
+																			</div>
+																		</div>
+																		<div class='form-group'>
+																			<label class='control-label col-xs-3'>District</label>
+																			<div class='col-xs-9'>
+																					<select name='kecamatan' id='kecamatan' class='form-control' required><option value='' selected=''>Choose District</option></select>
+																			</div>
+																		</div>
+																		<div class='form-group'>
+																			<label class='control-label col-xs-3'>Select Rates JNE</label>
+																			<div class='col-xs-9'>
+																					<select class='form-control' id='select_tarif_jne' name='select_tarif_jne' required>
+																						<option>Choose Postage Type</option>
+																					</select>
+																			</div>
+																		</div>
+																		",
+							'addressEms' => "<span id='addressIndonesia'></span>",
+						);
+
+				}
+				echo  json_encode(array ('cek'=>$cek, 'err'=>$err, 'content'=>$content)) . "dropString";
+
+			}
+
 		}
 	}
+
 
 
 

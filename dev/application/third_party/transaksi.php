@@ -249,87 +249,7 @@ class Transaksi {
 		$post_detail->post_attribute = json_encode(array());
     $_this->post->post_detail = $post_detail;
 	}
-	public function jsonGenerator(){
-    $cek = ''; $err=''; $content='';
-    foreach ($_POST as $key => $value) {
-       $$key = $value;
-    }
-	  switch($_GET['API']){
-      case 'countryChanged':{
-				$_this =& get_instance();
-				$cart = $_this->cart->contents();
-				$totalBeratProduk = 0 ;
-				$sumSubTotal = 0;
-		    foreach ($cart as $items){
-		      $produk_ID[] = $items['id'];
-					$getDataProduk = sqlArray(sqlQuery("select * from tbl_post where post_ID = '".$items['id']."'"));
-					$produkAtribute = json_decode($getDataProduk['post_attribute']);
-					$totalBeratProduk += ($produkAtribute->post_weight * $items['qty'])  ;
-					$sumSubTotal+= $items['subtotal'];
-		    }
-				if($countryName != 'ID'){
-					$getDataEMS = getPriceEMS($totalBeratProduk,$countryName);
-					$content = array(
-							'addressEms' => "<span id='addressIndonesia'></span>",
-							'totalBerat' => $totalBeratProduk,
-							'bulatanArray' => $getDataEMS,
-							'subTotal' => $sumSubTotal,
-							'ongkosKirim' => getShowingPrice(converRupiah($getDataEMS)),
-							'totalBayar' => getShowingPrice($sumSubTotal + converRupiah($getDataEMS)),
 
-						);
-
-				}else{
-					$content = array(
-						'addressIndonesia' => "<div class='form-group'>
-														          <label class='control-label col-xs-3'>State</label>
-														          <div class='col-xs-9'>
-														              ".form_dropdown_provinsi()."
-														          </div>
-														        </div>
-
-														        <div class='form-group'>
-														          <label class='control-label col-xs-3'>City</label>
-														          <div class='col-xs-9'>
-														              <select name='kota' id='kota' class='form-control' required><option value='' selected=''>Choose City </option></select>
-														          </div>
-														        </div>
-														        <div class='form-group'>
-														          <label class='control-label col-xs-3'>District</label>
-														          <div class='col-xs-9'>
-														              <select name='kecamatan' id='kecamatan' class='form-control' required><option value='' selected=''>Choose District</option></select>
-														          </div>
-														        </div>
-																		<div class='form-group'>
-																		  <label class='control-label col-xs-3'>Select Rates JNE</label>
-																		  <div class='col-xs-9'>
-																		      <select class='form-control' id='select_tarif_jne' name='select_tarif_jne' required>
-																		        <option>Choose Postage Type</option>
-																		      </select>
-																		  </div>
-																		</div>
-																		",
-							'addressEms' => "<span id='addressIndonesia'></span>",
-						);
-
-				}
-
-
-
-
-
-  		break;
-  		}
-
-
-      default:{
-        $content = "API NOT FOUND";
-      break;
-      }
-	 }
-
-    echo  json_encode(array ('cek'=>$cek, 'err'=>$err, 'content'=>$content)) . "dropString";
-  }
 
 	public function tagihan_pembelian(){
 		$_this =& get_instance();
@@ -506,18 +426,36 @@ class Transaksi {
       $_this->Transaksi_detil_model->insert($data_detail_transaksi,TRUE);
 
       /* Masukkan info alamat ke dalam shipping dalam database */
-      $data_pengiriman = array(
-          'user_id' => $user_id,
-          'transaction_id' => $id_transaksi,
-          'nama_lengkap' => $post['nama_lengkap'],
-          'alamat' => $post['alamat_lengkap'],
-          'provinsi' => $post['provinsi'],
-          'kota' => $post['kota'],
-          'kecamatan' => $post['kecamatan'],
-          'no_handphone' => $post['no_hp'],
-          'no_telepon' => $post['no_telepon'],
-          'email' => $post['email']
-        );
+			if($post['countryName'] == 'ID'){
+				$data_pengiriman = array(
+						'user_id' => $user_id,
+						'transaction_id' => $id_transaksi,
+						'nama_lengkap' => $post['nama_lengkap'],
+						'alamat' => $post['alamat_lengkap'],
+						'negara' => getCountryName($post['countryName']),
+						'provinsi' => $post['provinsi'],
+						'kota' => $post['kota'],
+						'kecamatan' => $post['kecamatan'],
+						'no_handphone' => $post['no_hp'],
+						'no_telepon' => $post['no_telepon'],
+						'email' => $post['email']
+					);
+			}else{
+				$data_pengiriman = array(
+	          'user_id' => $user_id,
+	          'transaction_id' => $id_transaksi,
+	          'nama_lengkap' => $post['nama_lengkap'],
+						'negara' => getCountryName($post['countryName']),
+	          'alamat' => $post['alamat_lengkap'],
+	          'provinsi' => "-",
+	          'kota' => "-",
+	          'kecamatan' => "-",
+	          'no_handphone' => $post['no_hp'],
+	          'no_telepon' => $post['no_telepon'],
+	          'email' => $post['email']
+	        );
+			}
+
 
       $_this->Pengiriman_model->insert($data_pengiriman);
 

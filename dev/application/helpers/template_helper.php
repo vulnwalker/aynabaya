@@ -19,6 +19,10 @@ function converRupiah($harga){
     }
     return $price;
   }
+  function getCountryName($kodeNegara){
+    $getData = sqlArray(sqlQuery("select * from tbl_ems where kode = '$kodeNegara'"));
+    return $getData['negara'];
+  }
 	function get_template_directory($path,$dir_file){
 		global $SConfig;
 
